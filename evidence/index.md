@@ -14,9 +14,9 @@ All experiments below were executed on October 15, 2026. Logs include UTC timest
 | E6 | Marker removed, same Pods/container IDs remain, two Ready endpoints restored | [recovery Pods](05-readiness-recovery-pods.json), [recovery endpoints](05-readiness-recovery-endpointslices.json), [verification-summary.json](verification-summary.json) |
 | E7 | Final service health, matching image, resource use, and removal of readiness markers | [06-final-verification.txt](06-final-verification.txt) |
 
-## Native Terminal screenshots
+## Screenshots
 
-[Open the 11 native Terminal screenshots and matching text](native-terminal/README.md). These were captured while rerunning the real commands in macOS Terminal, with Linux execution over SSH to Oracle. The Mac-to-VM image shows a local Mac command.
+[Open the 11 terminal screenshots and matching text](screenshots/README.md). These were captured while rerunning the real commands in macOS Terminal, with Linux execution over SSH to Oracle. The Mac-to-VM image shows a local Mac command.
 
 ## Notes
 

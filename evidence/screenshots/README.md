@@ -1,4 +1,4 @@
-# Native Terminal screenshots
+# Screenshots
 
 I reran the experiments in macOS Terminal and saved these window screenshots. The first ten show commands run on Oracle over SSH. The last one shows curl running on my Mac. Each screenshot also has a text copy of the output.
 

@@ -1,5 +1,5 @@
 {
-  "createdAt": "2026-10-20T19:54:54.783300Z",
+  "createdAt": "2026-10-20T20:04:36.332750Z",
   "files": [
     {
       "path": ".dockerignore",
@@ -23,8 +23,8 @@
     },
     {
       "path": "README.md",
-      "bytes": 5546,
-      "sha256": "a35255378a8574e72f5687553cc8d73da3c7afa5ee3fbdd804cc2b5811731d8a"
+      "bytes": 5542,
+      "sha256": "d097ee394e27b85a1e63e451ae919831ad678bbe988cb725c79bedab973cd00d"
     },
     {
       "path": "compose.yaml",
@@ -38,8 +38,8 @@
     },
     {
       "path": "docs/report.md",
-      "bytes": 10373,
-      "sha256": "8efad61c196d464863e69eb6024b401e36ef65d6738a1532b80a8dc467c10a0f"
+      "bytes": 10362,
+      "sha256": "e5ed59c1a47c8612ce4481ea9a809b9b3703b85205d9251d05da67857fae982e"
     },
     {
       "path": "evidence/00-environment.txt",
@@ -178,123 +178,123 @@
     },
     {
       "path": "evidence/index.md",
-      "bytes": 2877,
-      "sha256": "43cde55b6c52e8b0cb2a00d270b603d2cd4c0395873151c4fec70fb782d8c603"
+      "bytes": 2850,
+      "sha256": "ea355a07b25c8d0bb11e9f3119195a67814f5564b7b4705601a0176e6da3d354"
     },
     {
-      "path": "evidence/native-terminal/01-compose.png",
+      "path": "evidence/screenshots/01-compose.png",
       "bytes": 1641409,
       "sha256": "550267d8141f3959a440eaebdb1ef0d70e153fdf9044bb7c56d5f5be03060013"
     },
     {
-      "path": "evidence/native-terminal/01-compose.txt",
+      "path": "evidence/screenshots/01-compose.txt",
       "bytes": 1360,
       "sha256": "09ce3d39a8f7a272b29f23efbd6f587e80dce78ff7c2c74e92c01ca071653722"
     },
     {
-      "path": "evidence/native-terminal/02-compose-restart.png",
+      "path": "evidence/screenshots/02-compose-restart.png",
       "bytes": 1272682,
       "sha256": "334b3d9aa91a81a54e4e8277e41ac58804d9ef7bda7a401748109f9eadf2c2da"
     },
     {
-      "path": "evidence/native-terminal/02-compose-restart.txt",
+      "path": "evidence/screenshots/02-compose-restart.txt",
       "bytes": 1030,
       "sha256": "4ea7f8489c2fbbe54199320308e2cb6fb9082e9fb2e15f8cd6019366d5891cb8"
     },
     {
-      "path": "evidence/native-terminal/03-kubernetes.png",
+      "path": "evidence/screenshots/03-kubernetes.png",
       "bytes": 1452968,
       "sha256": "0eeb28f433038ae89baf174243725ecd579076cd5073128f705a9e6f3dfdfca0"
     },
     {
-      "path": "evidence/native-terminal/03-kubernetes.txt",
+      "path": "evidence/screenshots/03-kubernetes.txt",
       "bytes": 1247,
       "sha256": "eb47d4905ef8a42a36c2938f6584428f52925f62b542df3de1463e2c9208a0e2"
     },
     {
-      "path": "evidence/native-terminal/04-pod-replacement.png",
+      "path": "evidence/screenshots/04-pod-replacement.png",
       "bytes": 1523748,
       "sha256": "fe3825dfd94376859218eea206328438877e778399f20020c3e7dc1e2380c88f"
     },
     {
-      "path": "evidence/native-terminal/04-pod-replacement.txt",
+      "path": "evidence/screenshots/04-pod-replacement.txt",
       "bytes": 1333,
       "sha256": "7e60c5042b697d3dc0fb853ecd4ea96b8219fba8aaf12b5d7a529cf9de49eab8"
     },
     {
-      "path": "evidence/native-terminal/05-selector-failure.png",
+      "path": "evidence/screenshots/05-selector-failure.png",
       "bytes": 1492208,
       "sha256": "e7820ca3b7a61b70702a7e4c0beb28cf45fb79810087d93e4f35085278995c90"
     },
     {
-      "path": "evidence/native-terminal/05-selector-failure.txt",
+      "path": "evidence/screenshots/05-selector-failure.txt",
       "bytes": 1208,
       "sha256": "1cdf8f1085e9af4d333b7e5e2033ea546bcfbd993735bf671ef5102bf01fec5a"
     },
     {
-      "path": "evidence/native-terminal/06-selector-recovery.png",
+      "path": "evidence/screenshots/06-selector-recovery.png",
       "bytes": 1333457,
       "sha256": "288143619ed17eb6eef1a5f9129e8a1f2e7e75edb1a321db2735053067187695"
     },
     {
-      "path": "evidence/native-terminal/06-selector-recovery.txt",
+      "path": "evidence/screenshots/06-selector-recovery.txt",
       "bytes": 1026,
       "sha256": "662afb4cc6c30da7f801f3b6edd002d06cee7559b908ab00b17946c329066eb1"
     },
     {
-      "path": "evidence/native-terminal/07-readiness-baseline.png",
+      "path": "evidence/screenshots/07-readiness-baseline.png",
       "bytes": 1347842,
       "sha256": "67c52392086426d757cc6315eab6830928b7fba8a3241856fd31827b849d776d"
     },
     {
-      "path": "evidence/native-terminal/07-readiness-baseline.txt",
+      "path": "evidence/screenshots/07-readiness-baseline.txt",
       "bytes": 1047,
       "sha256": "78dd8c4a5bc5d2c0e0fc1da75b64c0ee93f0ecc98bb8b399fe801f07752566b6"
     },
     {
-      "path": "evidence/native-terminal/08-readiness-failure.png",
+      "path": "evidence/screenshots/08-readiness-failure.png",
       "bytes": 1944617,
       "sha256": "71274b30536c12118172dd81b77d11c59428c3e549e8664e52fe45de58efe77b"
     },
     {
-      "path": "evidence/native-terminal/08-readiness-failure.txt",
+      "path": "evidence/screenshots/08-readiness-failure.txt",
       "bytes": 1991,
       "sha256": "56c501176a53cb9bb3151a2bb2fb574c87d639724ce1f5192f555e4f0b97840d"
     },
     {
-      "path": "evidence/native-terminal/09-readiness-recovery.png",
+      "path": "evidence/screenshots/09-readiness-recovery.png",
       "bytes": 1624024,
       "sha256": "344e3501b23b418cfc735935fbe953ec31ba234dbd8b055710f71874d377fa5c"
     },
     {
-      "path": "evidence/native-terminal/09-readiness-recovery.txt",
+      "path": "evidence/screenshots/09-readiness-recovery.txt",
       "bytes": 1466,
       "sha256": "f5812b273d39dad6524b525e66c7f91eb0ddc1c8fe99bf5202933f794dcd9bf1"
     },
     {
-      "path": "evidence/native-terminal/10-tests.png",
+      "path": "evidence/screenshots/10-tests.png",
       "bytes": 1544766,
       "sha256": "de63c8c71db9d5d274aaac704e68bd3c78c9268ae377d59de7f1c0e43813f41d"
     },
     {
-      "path": "evidence/native-terminal/10-tests.txt",
+      "path": "evidence/screenshots/10-tests.txt",
       "bytes": 1046,
       "sha256": "618befee793874347e6116dd7d0f0cdc36197603315729d4b4fb8e28dc72c66e"
     },
     {
-      "path": "evidence/native-terminal/11-mac-to-vm.png",
+      "path": "evidence/screenshots/11-mac-to-vm.png",
       "bytes": 1136205,
       "sha256": "751012811f767d5ac80e2975c3bf9403669ad641b9747cd852d3696ade8e8357"
     },
     {
-      "path": "evidence/native-terminal/11-mac-to-vm.txt",
+      "path": "evidence/screenshots/11-mac-to-vm.txt",
       "bytes": 594,
       "sha256": "1c4c138ed34f5e8c75ce92d4b2d31d4f76ae3ad41118d483383612e9e87a2e84"
     },
     {
-      "path": "evidence/native-terminal/README.md",
-      "bytes": 2373,
-      "sha256": "02721c73f1379b6aabe9a0a4d714b5ba52b04bb51d0dc6dad7b8927f887def69"
+      "path": "evidence/screenshots/README.md",
+      "bytes": 2357,
+      "sha256": "2db4e06d097e9f77536294e6805fa307fe3dee450574e254319df3cde4305719"
     },
     {
       "path": "evidence/verification-summary.json",

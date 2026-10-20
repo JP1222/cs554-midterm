@@ -6,7 +6,7 @@ I ran the class Node.js service with Docker Compose and Kubernetes, then tested 
 
 - [Report and deployment diagram](docs/report.md)
 - [Experiment logs and results](evidence/index.md)
-- [Terminal screenshots](evidence/native-terminal/README.md)
+- [Terminal screenshots](evidence/screenshots/README.md)
 
 I included screenshots and logs following the instructor's October 19 clarification that a video is not required.
 

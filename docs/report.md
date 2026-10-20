@@ -54,7 +54,7 @@ I checked that the Pod UID, container ID, and restart count stayed the same. PID
 
 ## References
 
-The experiment files are listed in the [evidence index](../evidence/index.md). The Pod names and counts above refer to those original logs. A later run is also shown in [native Terminal screenshots](../evidence/native-terminal/README.md), where names and counts may differ. The OpenStack section is a written plan; I did not install OpenStack for this project.
+The experiment files are listed in the [evidence index](../evidence/index.md). The Pod names and counts above refer to those original logs. A later run is also shown in [terminal screenshots](../evidence/screenshots/README.md), where names and counts may differ. The OpenStack section is a written plan; I did not install OpenStack for this project.
 
 1. [Class Exercise 05 and OpenStack settings](https://github.com/UAH-Computer-Science/cs454-Course-Exercises/tree/8c572c153086cc68773c0e5804ccc0104ca34b3e/exercise-05-openstack-iaas).
 2. OpenStack, [Configure access and security for instances](https://docs.openstack.org/horizon/latest/user/configure-access-and-security-for-instances.html).
