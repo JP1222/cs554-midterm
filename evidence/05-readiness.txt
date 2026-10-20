@@ -1,0 +1,385 @@
+UTC: 2026-10-15T21:49:53Z
+Working directory: /home/ubuntu/cs554-midterm
+Verified ready Service endpoints: 2
+
+$ k get deployment\,pods\,service -o wide
+NAME                          READY   UP-TO-DATE   AVAILABLE   AGE     CONTAINERS   IMAGES                SELECTOR
+deployment.apps/midterm-app   2/2     2            2           3m33s   app          cs554-midterm:1.0.0   app=midterm-app
+
+NAME                               READY   STATUS    RESTARTS   AGE     IP          NODE                         NOMINATED NODE   READINESS GATES
+pod/evidence-client                1/1     Running   0          3m17s   10.54.0.7   k3d-cs554-midterm-server-0   <none>           <none>
+pod/midterm-app-5bc4dcd798-bc4lc   1/1     Running   0          3m32s   10.54.0.3   k3d-cs554-midterm-server-0   <none>           <none>
+pod/midterm-app-5bc4dcd798-fnsgw   1/1     Running   0          13s     10.54.0.8   k3d-cs554-midterm-server-0   <none>           <none>
+
+NAME                  TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)   AGE     SELECTOR
+service/midterm-app   ClusterIP   10.55.179.116   <none>        80/TCP    3m33s   app=midterm-app
+
+$ k get pods --show-labels
+NAME                           READY   STATUS    RESTARTS   AGE     LABELS
+evidence-client                1/1     Running   0          3m17s   role=evidence-client
+midterm-app-5bc4dcd798-bc4lc   1/1     Running   0          3m32s   app=midterm-app,pod-template-hash=5bc4dcd798
+midterm-app-5bc4dcd798-fnsgw   1/1     Running   0          13s     app=midterm-app,pod-template-hash=5bc4dcd798
+
+$ k get endpointslices -l kubernetes.io/service-name=midterm-app -o yaml
+apiVersion: v1
+items:
+- addressType: IPv4
+  apiVersion: discovery.k8s.io/v1
+  endpoints:
+  - addresses:
+    - 10.54.0.8
+    conditions:
+      ready: true
+      serving: true
+      terminating: false
+    nodeName: k3d-cs554-midterm-server-0
+    targetRef:
+      kind: Pod
+      name: midterm-app-5bc4dcd798-fnsgw
+      namespace: cs554-midterm
+      uid: cf9ddb46-9128-4db4-9b32-9a8a9a091bd8
+  - addresses:
+    - 10.54.0.3
+    conditions:
+      ready: true
+      serving: true
+      terminating: false
+    nodeName: k3d-cs554-midterm-server-0
+    targetRef:
+      kind: Pod
+      name: midterm-app-5bc4dcd798-bc4lc
+      namespace: cs554-midterm
+      uid: e1ee7375-b7d1-48ba-a4ff-3db26ee6db65
+  kind: EndpointSlice
+  metadata:
+    annotations:
+      endpoints.kubernetes.io/last-change-trigger-time: "2026-10-15T21:46:35Z"
+    creationTimestamp: "2026-10-15T21:46:20Z"
+    generateName: midterm-app-
+    generation: 11
+    labels:
+      endpointslice.kubernetes.io/managed-by: endpointslice-controller.k8s.io
+      kubernetes.io/service-name: midterm-app
+    name: midterm-app-qv8q8
+    namespace: cs554-midterm
+    ownerReferences:
+    - apiVersion: v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Service
+      name: midterm-app
+      uid: eb7d6280-3e15-4e44-8370-a79efed9e80f
+    resourceVersion: "651"
+    uid: a601494b-64fd-4ee8-87c6-9aa406a2385a
+  ports:
+  - name: http
+    port: 8080
+    protocol: TCP
+kind: List
+metadata:
+  resourceVersion: ""
+
+Selected one replica only: midterm-app-5bc4dcd798-bc4lc
+
+$ k exec midterm-app-5bc4dcd798-bc4lc -- node -e console.log\(\"PID1:\ \"+require\(\"node:fs\"\).readFileSync\(\"/proc/1/cmdline\"\,\"utf8\"\).replaceAll\(\"\\u0000\"\,\"\ \"\)\)
+PID1: node src/server.js 
+
+$ service_samples
+HTTP 200 {"service":"cs554-midterm","message":"Hello from the midterm service","hostname":"midterm-app-5bc4dcd798-fnsgw","requestCount":4}
+HTTP 200 {"service":"cs554-midterm","message":"Hello from the midterm service","hostname":"midterm-app-5bc4dcd798-fnsgw","requestCount":5}
+HTTP 200 {"service":"cs554-midterm","message":"Hello from the midterm service","hostname":"midterm-app-5bc4dcd798-bc4lc","requestCount":12}
+HTTP 200 {"service":"cs554-midterm","message":"Hello from the midterm service","hostname":"midterm-app-5bc4dcd798-bc4lc","requestCount":13}
+HTTP 200 {"service":"cs554-midterm","message":"Hello from the midterm service","hostname":"midterm-app-5bc4dcd798-bc4lc","requestCount":14}
+HTTP 200 {"service":"cs554-midterm","message":"Hello from the midterm service","hostname":"midterm-app-5bc4dcd798-bc4lc","requestCount":15}
+HTTP 200 {"service":"cs554-midterm","message":"Hello from the midterm service","hostname":"midterm-app-5bc4dcd798-fnsgw","requestCount":6}
+HTTP 200 {"service":"cs554-midterm","message":"Hello from the midterm service","hostname":"midterm-app-5bc4dcd798-bc4lc","requestCount":16}
+
+$ k exec midterm-app-5bc4dcd798-bc4lc -- node -e require\(\"node:fs\"\).writeFileSync\(process.env.READINESS_BLOCK_FILE\,\"Controlled\ readiness\ experiment\\n\"\)
+
+$ k wait pod/midterm-app-5bc4dcd798-bc4lc --for=condition=Ready=false --timeout=60s
+pod/midterm-app-5bc4dcd798-bc4lc condition met
+Verified ready Service endpoints: 1
+
+$ k get deployment\,pods\,service -o wide
+NAME                          READY   UP-TO-DATE   AVAILABLE   AGE     CONTAINERS   IMAGES                SELECTOR
+deployment.apps/midterm-app   1/2     2            1           3m39s   app          cs554-midterm:1.0.0   app=midterm-app
+
+NAME                               READY   STATUS    RESTARTS   AGE     IP          NODE                         NOMINATED NODE   READINESS GATES
+pod/evidence-client                1/1     Running   0          3m23s   10.54.0.7   k3d-cs554-midterm-server-0   <none>           <none>
+pod/midterm-app-5bc4dcd798-bc4lc   0/1     Running   0          3m38s   10.54.0.3   k3d-cs554-midterm-server-0   <none>           <none>
+pod/midterm-app-5bc4dcd798-fnsgw   1/1     Running   0          19s     10.54.0.8   k3d-cs554-midterm-server-0   <none>           <none>
+
+NAME                  TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)   AGE     SELECTOR
+service/midterm-app   ClusterIP   10.55.179.116   <none>        80/TCP    3m40s   app=midterm-app
+
+$ k get pods --show-labels
+NAME                           READY   STATUS    RESTARTS   AGE     LABELS
+evidence-client                1/1     Running   0          3m24s   role=evidence-client
+midterm-app-5bc4dcd798-bc4lc   0/1     Running   0          3m39s   app=midterm-app,pod-template-hash=5bc4dcd798
+midterm-app-5bc4dcd798-fnsgw   1/1     Running   0          20s     app=midterm-app,pod-template-hash=5bc4dcd798
+
+$ k get endpointslices -l kubernetes.io/service-name=midterm-app -o yaml
+apiVersion: v1
+items:
+- addressType: IPv4
+  apiVersion: discovery.k8s.io/v1
+  endpoints:
+  - addresses:
+    - 10.54.0.8
+    conditions:
+      ready: true
+      serving: true
+      terminating: false
+    nodeName: k3d-cs554-midterm-server-0
+    targetRef:
+      kind: Pod
+      name: midterm-app-5bc4dcd798-fnsgw
+      namespace: cs554-midterm
+      uid: cf9ddb46-9128-4db4-9b32-9a8a9a091bd8
+  - addresses:
+    - 10.54.0.3
+    conditions:
+      ready: false
+      serving: false
+      terminating: false
+    nodeName: k3d-cs554-midterm-server-0
+    targetRef:
+      kind: Pod
+      name: midterm-app-5bc4dcd798-bc4lc
+      namespace: cs554-midterm
+      uid: e1ee7375-b7d1-48ba-a4ff-3db26ee6db65
+  kind: EndpointSlice
+  metadata:
+    annotations:
+      endpoints.kubernetes.io/last-change-trigger-time: "2026-10-15T21:49:59Z"
+    creationTimestamp: "2026-10-15T21:46:20Z"
+    generateName: midterm-app-
+    generation: 12
+    labels:
+      endpointslice.kubernetes.io/managed-by: endpointslice-controller.k8s.io
+      kubernetes.io/service-name: midterm-app
+    name: midterm-app-qv8q8
+    namespace: cs554-midterm
+    ownerReferences:
+    - apiVersion: v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Service
+      name: midterm-app
+      uid: eb7d6280-3e15-4e44-8370-a79efed9e80f
+    resourceVersion: "658"
+    uid: a601494b-64fd-4ee8-87c6-9aa406a2385a
+  ports:
+  - name: http
+    port: 8080
+    protocol: TCP
+kind: List
+metadata:
+  resourceVersion: ""
+
+$ k exec midterm-app-5bc4dcd798-bc4lc -- node -e console.log\(\"PID1:\ \"+require\(\"node:fs\"\).readFileSync\(\"/proc/1/cmdline\"\,\"utf8\"\).replaceAll\(\"\\u0000\"\,\"\ \"\)\)
+PID1: node src/server.js 
+
+Diagnostic direct Pod request proves the process still serves /; this is not Service evidence:
+
+$ client_get http://10.54.0.3:8080/
+HTTP 200 {"service":"cs554-midterm","message":"Hello from the midterm service","hostname":"midterm-app-5bc4dcd798-bc4lc","requestCount":17}
+
+Direct /health request should now return HTTP 503:
+HTTP 503 {"status":"not-ready"}
+command terminated with exit code 1
+
+Service requests should use the remaining Ready replica:
+
+$ service_samples
+HTTP 200 {"service":"cs554-midterm","message":"Hello from the midterm service","hostname":"midterm-app-5bc4dcd798-fnsgw","requestCount":7}
+HTTP 200 {"service":"cs554-midterm","message":"Hello from the midterm service","hostname":"midterm-app-5bc4dcd798-fnsgw","requestCount":8}
+HTTP 200 {"service":"cs554-midterm","message":"Hello from the midterm service","hostname":"midterm-app-5bc4dcd798-fnsgw","requestCount":9}
+HTTP 200 {"service":"cs554-midterm","message":"Hello from the midterm service","hostname":"midterm-app-5bc4dcd798-fnsgw","requestCount":10}
+HTTP 200 {"service":"cs554-midterm","message":"Hello from the midterm service","hostname":"midterm-app-5bc4dcd798-fnsgw","requestCount":11}
+HTTP 200 {"service":"cs554-midterm","message":"Hello from the midterm service","hostname":"midterm-app-5bc4dcd798-fnsgw","requestCount":12}
+HTTP 200 {"service":"cs554-midterm","message":"Hello from the midterm service","hostname":"midterm-app-5bc4dcd798-fnsgw","requestCount":13}
+HTTP 200 {"service":"cs554-midterm","message":"Hello from the midterm service","hostname":"midterm-app-5bc4dcd798-fnsgw","requestCount":14}
+
+$ k describe pod midterm-app-5bc4dcd798-bc4lc
+Name:             midterm-app-5bc4dcd798-bc4lc
+Namespace:        cs554-midterm
+Priority:         0
+Service Account:  default
+Node:             k3d-cs554-midterm-server-0/172.29.55.3
+Start Time:       Thu, 15 Oct 2026 21:46:21 +0000
+Labels:           app=midterm-app
+                  pod-template-hash=5bc4dcd798
+Annotations:      <none>
+Status:           Running
+IP:               10.54.0.3
+IPs:
+  IP:           10.54.0.3
+Controlled By:  ReplicaSet/midterm-app-5bc4dcd798
+Containers:
+  app:
+    Container ID:   containerd://e6f02a7d56bf5020d1f77cc7bd385afeaffbbca6452ae12ae40758cddad517f9
+    Image:          cs554-midterm:1.0.0
+    Image ID:       sha256:27ff95fd2cf430cf9c6c9e608939c875c16dd68ae2d578dcb88fb0b440b44b76
+    Port:           8080/TCP (http)
+    Host Port:      0/TCP (http)
+    State:          Running
+      Started:      Thu, 15 Oct 2026 21:46:33 +0000
+    Ready:          False
+    Restart Count:  0
+    Limits:
+      cpu:     500m
+      memory:  128Mi
+    Requests:
+      cpu:      100m
+      memory:   64Mi
+    Readiness:  http-get http://:http/health delay=2s timeout=1s period=2s #success=1 #failure=2
+    Environment:
+      PORT:                  8080
+      SERVICE_NAME:          cs554-midterm
+      MESSAGE:               Hello from the midterm service
+      READINESS_BLOCK_FILE:  /tmp/midterm-not-ready
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-p8qnz (ro)
+Conditions:
+  Type                        Status
+  PodReadyToStartContainers   True 
+  Initialized                 True 
+  Ready                       False 
+  ContainersReady             False 
+  PodScheduled                True 
+Volumes:
+  kube-api-access-p8qnz:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    Optional:                false
+    DownwardAPI:             true
+QoS Class:                   Burstable
+Node-Selectors:              <none>
+Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:
+  Type     Reason                  Age              From               Message
+  ----     ------                  ----             ----               -------
+  Normal   Scheduled               3m43s            default-scheduler  Successfully assigned cs554-midterm/midterm-app-5bc4dcd798-bc4lc to k3d-cs554-midterm-server-0
+  Warning  FailedCreatePodSandBox  3m44s            kubelet            Failed to create pod sandbox: rpc error: code = Unknown desc = failed to setup network for sandbox "43bbf0767acd0b2d71f81f6eba6f42d63eb36a2208937589b57c6aee101ca3ee": plugin type="flannel" failed (add): failed to load flannel 'subnet.env' file: open /run/flannel/subnet.env: no such file or directory. Check the flannel pod log for this node.
+  Normal   Pulled                  3m32s            kubelet            spec.containers{app}: Container image "cs554-midterm:1.0.0" already present on machine and can be accessed by the pod
+  Normal   Created                 3m32s            kubelet            spec.containers{app}: Container created
+  Normal   Started                 3m32s            kubelet            spec.containers{app}: Container started
+  Warning  Unhealthy               0s (x6 over 8s)  kubelet            spec.containers{app}: Readiness probe failed: HTTP probe failed with statuscode: 503
+
+$ k exec midterm-app-5bc4dcd798-bc4lc -- node -e require\(\"node:fs\"\).rmSync\(process.env.READINESS_BLOCK_FILE\,\{force:true\}\)
+
+$ k wait pod/midterm-app-5bc4dcd798-bc4lc --for=condition=Ready --timeout=60s
+pod/midterm-app-5bc4dcd798-bc4lc condition met
+Verified ready Service endpoints: 2
+
+$ k get deployment\,pods\,service -o wide
+NAME                          READY   UP-TO-DATE   AVAILABLE   AGE     CONTAINERS   IMAGES                SELECTOR
+deployment.apps/midterm-app   2/2     2            2           3m47s   app          cs554-midterm:1.0.0   app=midterm-app
+
+NAME                               READY   STATUS    RESTARTS   AGE     IP          NODE                         NOMINATED NODE   READINESS GATES
+pod/evidence-client                1/1     Running   0          3m31s   10.54.0.7   k3d-cs554-midterm-server-0   <none>           <none>
+pod/midterm-app-5bc4dcd798-bc4lc   1/1     Running   0          3m46s   10.54.0.3   k3d-cs554-midterm-server-0   <none>           <none>
+pod/midterm-app-5bc4dcd798-fnsgw   1/1     Running   0          27s     10.54.0.8   k3d-cs554-midterm-server-0   <none>           <none>
+
+NAME                  TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)   AGE     SELECTOR
+service/midterm-app   ClusterIP   10.55.179.116   <none>        80/TCP    3m47s   app=midterm-app
+
+$ k get pods --show-labels
+NAME                           READY   STATUS    RESTARTS   AGE     LABELS
+evidence-client                1/1     Running   0          3m31s   role=evidence-client
+midterm-app-5bc4dcd798-bc4lc   1/1     Running   0          3m46s   app=midterm-app,pod-template-hash=5bc4dcd798
+midterm-app-5bc4dcd798-fnsgw   1/1     Running   0          27s     app=midterm-app,pod-template-hash=5bc4dcd798
+
+$ k get endpointslices -l kubernetes.io/service-name=midterm-app -o yaml
+apiVersion: v1
+items:
+- addressType: IPv4
+  apiVersion: discovery.k8s.io/v1
+  endpoints:
+  - addresses:
+    - 10.54.0.8
+    conditions:
+      ready: true
+      serving: true
+      terminating: false
+    nodeName: k3d-cs554-midterm-server-0
+    targetRef:
+      kind: Pod
+      name: midterm-app-5bc4dcd798-fnsgw
+      namespace: cs554-midterm
+      uid: cf9ddb46-9128-4db4-9b32-9a8a9a091bd8
+  - addresses:
+    - 10.54.0.3
+    conditions:
+      ready: true
+      serving: true
+      terminating: false
+    nodeName: k3d-cs554-midterm-server-0
+    targetRef:
+      kind: Pod
+      name: midterm-app-5bc4dcd798-bc4lc
+      namespace: cs554-midterm
+      uid: e1ee7375-b7d1-48ba-a4ff-3db26ee6db65
+  kind: EndpointSlice
+  metadata:
+    annotations:
+      endpoints.kubernetes.io/last-change-trigger-time: "2026-10-15T21:50:07Z"
+    creationTimestamp: "2026-10-15T21:46:20Z"
+    generateName: midterm-app-
+    generation: 13
+    labels:
+      endpointslice.kubernetes.io/managed-by: endpointslice-controller.k8s.io
+      kubernetes.io/service-name: midterm-app
+    name: midterm-app-qv8q8
+    namespace: cs554-midterm
+    ownerReferences:
+    - apiVersion: v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Service
+      name: midterm-app
+      uid: eb7d6280-3e15-4e44-8370-a79efed9e80f
+    resourceVersion: "669"
+    uid: a601494b-64fd-4ee8-87c6-9aa406a2385a
+  ports:
+  - name: http
+    port: 8080
+    protocol: TCP
+kind: List
+metadata:
+  resourceVersion: ""
+
+$ service_samples
+HTTP 200 {"service":"cs554-midterm","message":"Hello from the midterm service","hostname":"midterm-app-5bc4dcd798-fnsgw","requestCount":15}
+HTTP 200 {"service":"cs554-midterm","message":"Hello from the midterm service","hostname":"midterm-app-5bc4dcd798-bc4lc","requestCount":18}
+HTTP 200 {"service":"cs554-midterm","message":"Hello from the midterm service","hostname":"midterm-app-5bc4dcd798-fnsgw","requestCount":16}
+HTTP 200 {"service":"cs554-midterm","message":"Hello from the midterm service","hostname":"midterm-app-5bc4dcd798-bc4lc","requestCount":19}
+HTTP 200 {"service":"cs554-midterm","message":"Hello from the midterm service","hostname":"midterm-app-5bc4dcd798-bc4lc","requestCount":20}
+HTTP 200 {"service":"cs554-midterm","message":"Hello from the midterm service","hostname":"midterm-app-5bc4dcd798-bc4lc","requestCount":21}
+HTTP 200 {"service":"cs554-midterm","message":"Hello from the midterm service","hostname":"midterm-app-5bc4dcd798-bc4lc","requestCount":22}
+HTTP 200 {"service":"cs554-midterm","message":"Hello from the midterm service","hostname":"midterm-app-5bc4dcd798-fnsgw","requestCount":17}
+
+$ k logs midterm-app-5bc4dcd798-bc4lc --tail=20
+{"method":"GET","path":"/","status":200}
+{"method":"GET","path":"/health","status":200}
+{"method":"GET","path":"/","status":200}
+{"method":"GET","path":"/","status":200}
+{"method":"GET","path":"/","status":200}
+{"method":"GET","path":"/health","status":503}
+{"method":"GET","path":"/health","status":503}
+{"method":"GET","path":"/health","status":503}
+{"method":"GET","path":"/","status":200}
+{"method":"GET","path":"/health","status":503}
+{"method":"GET","path":"/health","status":503}
+{"method":"GET","path":"/health","status":503}
+{"method":"GET","path":"/health","status":503}
+{"method":"GET","path":"/health","status":200}
+{"method":"GET","path":"/","status":200}
+{"method":"GET","path":"/health","status":200}
+{"method":"GET","path":"/","status":200}
+{"method":"GET","path":"/","status":200}
+{"method":"GET","path":"/","status":200}
+{"method":"GET","path":"/","status":200}

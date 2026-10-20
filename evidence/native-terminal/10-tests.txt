@@ -1,0 +1,31 @@
+ubuntu@oracle:~/cs554-midterm$ uname -srm
+Linux 6.17.0-1018-oracle aarch64
+ubuntu@oracle:~/cs554-midterm$ node --version
+v22.22.0
+ubuntu@oracle:~/cs554-midterm$ npm test
+
+> cs454-midterm-starter@1.0.0 test
+> node --test test/*.test.js
+
+{"method":"GET","path":"/health","status":200}
+{"method":"GET","path":"/","status":200}
+{"method":"GET","path":"/health","status":503}
+{"method":"GET","path":"/","status":200}
+{"method":"GET","path":"/health","status":200}
+{"method":"GET","path":"/","status":200}
+✔ one instance becomes unready and recovers without stopping or losing its counter (76.585162ms)
+{"method":"GET","path":"/","status":200}
+{"method":"GET","path":"/health","status":200}
+{"method":"GET","path":"/","status":200}
+{"method":"GET","path":"/missing","status":404}
+{"method":"GET","path":"/","status":200}
+✔ configured responses, local counter, health, and fresh instance (79.234537ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 233.487588
+ubuntu@oracle:~/cs554-midterm$ 

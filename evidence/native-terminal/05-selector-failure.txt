@@ -1,0 +1,18 @@
+ubuntu@oracle:~/cs554-midterm$ kubectl -n cs554-midterm patch service midterm-app --type=merge -p '{"spec":{"selector":{"app":"midterm-app-mismatch"}}}'
+service/midterm-app patched
+ubuntu@oracle:~/cs554-midterm$ wait_ready_endpoints 0
+Verified ready Service endpoints: 0
+ubuntu@oracle:~/cs554-midterm$ kubectl -n cs554-midterm get pods -l app=midterm-app
+NAME                           READY   STATUS    RESTARTS   AGE
+midterm-app-5bc4dcd798-fnsgw   1/1     Running   0          173m
+midterm-app-5bc4dcd798-nrfnw   1/1     Running   0          12s
+ubuntu@oracle:~/cs554-midterm$ kubectl -n cs554-midterm get service midterm-app -o wide
+NAME          TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)   AGE    SELECTOR
+midterm-app   ClusterIP   10.55.179.116   <none>        80/TCP    176m   app=midterm-app-mismatch
+ubuntu@oracle:~/cs554-midterm$ kubectl -n cs554-midterm get endpointslices -l kubernetes.io/service-name=midterm-app
+NAME                ADDRESSTYPE   PORTS     ENDPOINTS   AGE
+midterm-app-qv8q8   IPv4          <unset>   <unset>     176m
+ubuntu@oracle:~/cs554-midterm$ client_get http://midterm-app/
+TypeError: fetch failed
+command terminated with exit code 2
+ubuntu@oracle:~/cs554-midterm$ 

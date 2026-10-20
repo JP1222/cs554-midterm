@@ -1,0 +1,17 @@
+ubuntu@oracle:~/cs554-midterm$ kubectl -n cs554-midterm get pods -l app=midterm-app
+NAME                           READY   STATUS    RESTARTS   AGE
+midterm-app-5bc4dcd798-bc4lc   1/1     Running   0          176m
+midterm-app-5bc4dcd798-fnsgw   1/1     Running   0          172m
+ubuntu@oracle:~/cs554-midterm$ DELETE_POD=$(kubectl -n cs554-midterm get pods -l app=midterm-app -o jsonpath='{.items[0].metadata.name}')
+ubuntu@oracle:~/cs554-midterm$ kubectl -n cs554-midterm delete pod "$DELETE_POD"
+pod "midterm-app-5bc4dcd798-bc4lc" deleted from cs554-midterm namespace
+ubuntu@oracle:~/cs554-midterm$ kubectl -n cs554-midterm rollout status deployment/midterm-app --timeout=120s
+Waiting for deployment "midterm-app" rollout to finish: 1 of 2 updated replicas are available...
+deployment "midterm-app" successfully rolled out
+ubuntu@oracle:~/cs554-midterm$ kubectl -n cs554-midterm get pods -l app=midterm-app
+NAME                           READY   STATUS    RESTARTS   AGE
+midterm-app-5bc4dcd798-fnsgw   1/1     Running   0          172m
+midterm-app-5bc4dcd798-nrfnw   1/1     Running   0          5s
+ubuntu@oracle:~/cs554-midterm$ client_get http://midterm-app/
+HTTP 200 {"service":"cs554-midterm","message":"Hello from the midterm service","hostname":"midterm-app-5bc4dcd798-nrfnw","requestCount":1}
+ubuntu@oracle:~/cs554-midterm$ 

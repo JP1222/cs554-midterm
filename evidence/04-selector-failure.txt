@@ -1,0 +1,224 @@
+UTC: 2026-10-15T21:49:47Z
+Working directory: /home/ubuntu/cs554-midterm
+Verified ready Service endpoints: 2
+
+$ k get deployment\,pods\,service -o wide
+NAME                          READY   UP-TO-DATE   AVAILABLE   AGE     CONTAINERS   IMAGES                SELECTOR
+deployment.apps/midterm-app   2/2     2            2           3m28s   app          cs554-midterm:1.0.0   app=midterm-app
+
+NAME                               READY   STATUS    RESTARTS   AGE     IP          NODE                         NOMINATED NODE   READINESS GATES
+pod/evidence-client                1/1     Running   0          3m12s   10.54.0.7   k3d-cs554-midterm-server-0   <none>           <none>
+pod/midterm-app-5bc4dcd798-bc4lc   1/1     Running   0          3m27s   10.54.0.3   k3d-cs554-midterm-server-0   <none>           <none>
+pod/midterm-app-5bc4dcd798-fnsgw   1/1     Running   0          8s      10.54.0.8   k3d-cs554-midterm-server-0   <none>           <none>
+
+NAME                  TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)   AGE     SELECTOR
+service/midterm-app   ClusterIP   10.55.179.116   <none>        80/TCP    3m28s   app=midterm-app
+
+$ k get pods --show-labels
+NAME                           READY   STATUS    RESTARTS   AGE     LABELS
+evidence-client                1/1     Running   0          3m12s   role=evidence-client
+midterm-app-5bc4dcd798-bc4lc   1/1     Running   0          3m27s   app=midterm-app,pod-template-hash=5bc4dcd798
+midterm-app-5bc4dcd798-fnsgw   1/1     Running   0          8s      app=midterm-app,pod-template-hash=5bc4dcd798
+
+$ k get endpointslices -l kubernetes.io/service-name=midterm-app -o yaml
+apiVersion: v1
+items:
+- addressType: IPv4
+  apiVersion: discovery.k8s.io/v1
+  endpoints:
+  - addresses:
+    - 10.54.0.3
+    conditions:
+      ready: true
+      serving: true
+      terminating: false
+    nodeName: k3d-cs554-midterm-server-0
+    targetRef:
+      kind: Pod
+      name: midterm-app-5bc4dcd798-bc4lc
+      namespace: cs554-midterm
+      uid: e1ee7375-b7d1-48ba-a4ff-3db26ee6db65
+  - addresses:
+    - 10.54.0.8
+    conditions:
+      ready: true
+      serving: true
+      terminating: false
+    nodeName: k3d-cs554-midterm-server-0
+    targetRef:
+      kind: Pod
+      name: midterm-app-5bc4dcd798-fnsgw
+      namespace: cs554-midterm
+      uid: cf9ddb46-9128-4db4-9b32-9a8a9a091bd8
+  kind: EndpointSlice
+  metadata:
+    annotations:
+      endpoints.kubernetes.io/last-change-trigger-time: "2026-10-15T21:49:44Z"
+    creationTimestamp: "2026-10-15T21:46:20Z"
+    generateName: midterm-app-
+    generation: 9
+    labels:
+      endpointslice.kubernetes.io/managed-by: endpointslice-controller.k8s.io
+      kubernetes.io/service-name: midterm-app
+    name: midterm-app-qv8q8
+    namespace: cs554-midterm
+    ownerReferences:
+    - apiVersion: v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Service
+      name: midterm-app
+      uid: eb7d6280-3e15-4e44-8370-a79efed9e80f
+    resourceVersion: "641"
+    uid: a601494b-64fd-4ee8-87c6-9aa406a2385a
+  ports:
+  - name: http
+    port: 8080
+    protocol: TCP
+kind: List
+metadata:
+  resourceVersion: ""
+
+$ client_get http://midterm-app/
+HTTP 200 {"service":"cs554-midterm","message":"Hello from the midterm service","hostname":"midterm-app-5bc4dcd798-bc4lc","requestCount":10}
+
+$ k patch service midterm-app --type=merge -p \{\"spec\":\{\"selector\":\{\"app\":\"midterm-app-mismatch\"\}\}\}
+service/midterm-app patched
+Verified ready Service endpoints: 0
+
+$ k get deployment\,pods\,service -o wide
+NAME                          READY   UP-TO-DATE   AVAILABLE   AGE     CONTAINERS   IMAGES                SELECTOR
+deployment.apps/midterm-app   2/2     2            2           3m29s   app          cs554-midterm:1.0.0   app=midterm-app
+
+NAME                               READY   STATUS    RESTARTS   AGE     IP          NODE                         NOMINATED NODE   READINESS GATES
+pod/evidence-client                1/1     Running   0          3m13s   10.54.0.7   k3d-cs554-midterm-server-0   <none>           <none>
+pod/midterm-app-5bc4dcd798-bc4lc   1/1     Running   0          3m28s   10.54.0.3   k3d-cs554-midterm-server-0   <none>           <none>
+pod/midterm-app-5bc4dcd798-fnsgw   1/1     Running   0          9s      10.54.0.8   k3d-cs554-midterm-server-0   <none>           <none>
+
+NAME                  TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)   AGE     SELECTOR
+service/midterm-app   ClusterIP   10.55.179.116   <none>        80/TCP    3m29s   app=midterm-app-mismatch
+
+$ k get pods --show-labels
+NAME                           READY   STATUS    RESTARTS   AGE     LABELS
+evidence-client                1/1     Running   0          3m13s   role=evidence-client
+midterm-app-5bc4dcd798-bc4lc   1/1     Running   0          3m28s   app=midterm-app,pod-template-hash=5bc4dcd798
+midterm-app-5bc4dcd798-fnsgw   1/1     Running   0          9s      app=midterm-app,pod-template-hash=5bc4dcd798
+
+$ k get endpointslices -l kubernetes.io/service-name=midterm-app -o yaml
+apiVersion: v1
+items:
+- addressType: IPv4
+  apiVersion: discovery.k8s.io/v1
+  endpoints: null
+  kind: EndpointSlice
+  metadata:
+    creationTimestamp: "2026-10-15T21:46:20Z"
+    generateName: midterm-app-
+    generation: 10
+    labels:
+      endpointslice.kubernetes.io/managed-by: endpointslice-controller.k8s.io
+      kubernetes.io/service-name: midterm-app
+    name: midterm-app-qv8q8
+    namespace: cs554-midterm
+    ownerReferences:
+    - apiVersion: v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Service
+      name: midterm-app
+      uid: eb7d6280-3e15-4e44-8370-a79efed9e80f
+    resourceVersion: "648"
+    uid: a601494b-64fd-4ee8-87c6-9aa406a2385a
+  ports: null
+kind: List
+metadata:
+  resourceVersion: ""
+
+A new in-cluster client request depends on the Service selector:
+TypeError: fetch failed
+command terminated with exit code 2
+Observed expected client failure while application Pods remain Ready.
+
+$ k patch service midterm-app --type=merge -p \{\"spec\":\{\"selector\":\{\"app\":\"midterm-app\"\}\}\}
+service/midterm-app patched
+Verified ready Service endpoints: 2
+
+$ k get deployment\,pods\,service -o wide
+NAME                          READY   UP-TO-DATE   AVAILABLE   AGE     CONTAINERS   IMAGES                SELECTOR
+deployment.apps/midterm-app   2/2     2            2           3m31s   app          cs554-midterm:1.0.0   app=midterm-app
+
+NAME                               READY   STATUS    RESTARTS   AGE     IP          NODE                         NOMINATED NODE   READINESS GATES
+pod/evidence-client                1/1     Running   0          3m15s   10.54.0.7   k3d-cs554-midterm-server-0   <none>           <none>
+pod/midterm-app-5bc4dcd798-bc4lc   1/1     Running   0          3m30s   10.54.0.3   k3d-cs554-midterm-server-0   <none>           <none>
+pod/midterm-app-5bc4dcd798-fnsgw   1/1     Running   0          11s     10.54.0.8   k3d-cs554-midterm-server-0   <none>           <none>
+
+NAME                  TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)   AGE     SELECTOR
+service/midterm-app   ClusterIP   10.55.179.116   <none>        80/TCP    3m31s   app=midterm-app
+
+$ k get pods --show-labels
+NAME                           READY   STATUS    RESTARTS   AGE     LABELS
+evidence-client                1/1     Running   0          3m15s   role=evidence-client
+midterm-app-5bc4dcd798-bc4lc   1/1     Running   0          3m30s   app=midterm-app,pod-template-hash=5bc4dcd798
+midterm-app-5bc4dcd798-fnsgw   1/1     Running   0          11s     app=midterm-app,pod-template-hash=5bc4dcd798
+
+$ k get endpointslices -l kubernetes.io/service-name=midterm-app -o yaml
+apiVersion: v1
+items:
+- addressType: IPv4
+  apiVersion: discovery.k8s.io/v1
+  endpoints:
+  - addresses:
+    - 10.54.0.8
+    conditions:
+      ready: true
+      serving: true
+      terminating: false
+    nodeName: k3d-cs554-midterm-server-0
+    targetRef:
+      kind: Pod
+      name: midterm-app-5bc4dcd798-fnsgw
+      namespace: cs554-midterm
+      uid: cf9ddb46-9128-4db4-9b32-9a8a9a091bd8
+  - addresses:
+    - 10.54.0.3
+    conditions:
+      ready: true
+      serving: true
+      terminating: false
+    nodeName: k3d-cs554-midterm-server-0
+    targetRef:
+      kind: Pod
+      name: midterm-app-5bc4dcd798-bc4lc
+      namespace: cs554-midterm
+      uid: e1ee7375-b7d1-48ba-a4ff-3db26ee6db65
+  kind: EndpointSlice
+  metadata:
+    annotations:
+      endpoints.kubernetes.io/last-change-trigger-time: "2026-10-15T21:46:35Z"
+    creationTimestamp: "2026-10-15T21:46:20Z"
+    generateName: midterm-app-
+    generation: 11
+    labels:
+      endpointslice.kubernetes.io/managed-by: endpointslice-controller.k8s.io
+      kubernetes.io/service-name: midterm-app
+    name: midterm-app-qv8q8
+    namespace: cs554-midterm
+    ownerReferences:
+    - apiVersion: v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Service
+      name: midterm-app
+      uid: eb7d6280-3e15-4e44-8370-a79efed9e80f
+    resourceVersion: "651"
+    uid: a601494b-64fd-4ee8-87c6-9aa406a2385a
+  ports:
+  - name: http
+    port: 8080
+    protocol: TCP
+kind: List
+metadata:
+  resourceVersion: ""
+
+$ client_get http://midterm-app/
+HTTP 200 {"service":"cs554-midterm","message":"Hello from the midterm service","hostname":"midterm-app-5bc4dcd798-bc4lc","requestCount":11}

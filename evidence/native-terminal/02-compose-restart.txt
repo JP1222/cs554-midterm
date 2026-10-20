@@ -1,0 +1,16 @@
+ubuntu@oracle:~/cs554-midterm$ docker compose restart app
+[+] restart 0/1
+ ⠙ Container cs554-midterm-app-1 Restarting                                                                                                         0.2s 
+ubuntu@oracle:~/cs554-midterm$ docker compose up -d --wait
+[+] up 1/1
+ ✔ Container cs554-midterm-app-1 Healthy                                                                                                            4.5s 
+ubuntu@oracle:~/cs554-midterm$ curl -sS http://127.0.0.1:18080/; echo
+{"service":"cs554-midterm","message":"Hello from the midterm service","hostname":"a3112a6c2d01","requestCount":1}
+ubuntu@oracle:~/cs554-midterm$ docker compose logs --no-color --tail=6
+app-1  | {"method":"GET","path":"/health","status":200}
+app-1  | {"method":"GET","path":"/health","status":200}
+app-1  | Received SIGTERM; stopping.
+app-1  | Listening on port 8080
+app-1  | {"method":"GET","path":"/health","status":200}
+app-1  | {"method":"GET","path":"/","status":200}
+ubuntu@oracle:~/cs554-midterm$ 

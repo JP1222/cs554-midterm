@@ -1,0 +1,21 @@
+ubuntu@oracle:~/cs554-midterm$ uname -srm
+Linux 6.17.0-1018-oracle aarch64
+ubuntu@oracle:~/cs554-midterm$ kubectl get nodes
+NAME                         STATUS   ROLES           AGE    VERSION
+k3d-cs554-midterm-server-0   Ready    control-plane   176m   v1.35.5+k3s1
+ubuntu@oracle:~/cs554-midterm$ kubectl -n cs554-midterm get deployment,pods,service
+NAME                          READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/midterm-app   2/2     2            2           176m
+
+NAME                               READY   STATUS    RESTARTS   AGE
+pod/evidence-client                1/1     Running   0          175m
+pod/midterm-app-5bc4dcd798-bc4lc   1/1     Running   0          176m
+pod/midterm-app-5bc4dcd798-fnsgw   1/1     Running   0          172m
+
+NAME                  TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)   AGE
+service/midterm-app   ClusterIP   10.55.179.116   <none>        80/TCP    176m
+ubuntu@oracle:~/cs554-midterm$ client_get http://midterm-app/
+HTTP 200 {"service":"cs554-midterm","message":"Hello from the midterm service","hostname":"midterm-app-5bc4dcd798-fnsgw","requestCount":18}
+ubuntu@oracle:~/cs554-midterm$ client_get http://midterm-app/health
+HTTP 200 {"status":"ok"}
+ubuntu@oracle:~/cs554-midterm$ 

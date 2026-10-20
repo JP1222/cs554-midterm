@@ -1,0 +1,15 @@
+mac$ uname -srm
+Darwin 27.0.0 arm64
+mac$ ssh -M -S /Users/jp1222/Desktop/554/midterm/.runtime/native-tunnel.sock -o ExitOnForwardFailure=yes -o BatchMode=yes -fNT -L 127.0.0.1:18082:127.0.0.1:18080 oracle
+mac$ curl -sS -i http://127.0.0.1:18082/health; echo
+HTTP/1.1 200 OK
+Content-Type: application/json
+Date: Fri, 16 Oct 2026 00:44:18 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+Transfer-Encoding: chunked
+
+{"status":"ok"}
+mac$ curl -sS http://127.0.0.1:18082/; echo
+{"service":"cs554-midterm","message":"Hello from the midterm service","hostname":"a3112a6c2d01","requestCount":2}
+mac$ 

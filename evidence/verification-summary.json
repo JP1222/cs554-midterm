@@ -1,0 +1,196 @@
+{
+  "verifiedAt": "2026-10-15T21:58:06.708Z",
+  "phases": {
+    "02-baseline": {
+      "pods": [
+        {
+          "name": "midterm-app-5bc4dcd798-6vltq",
+          "uid": "4c36c30d-9a47-483e-a279-7608f859e1b2",
+          "phase": "Running",
+          "ready": true,
+          "restarts": 0,
+          "containerId": "containerd://6e34cd7141000857ebf1be61bd43c9049f5f3683a48b567ede5a24237d5ba36d"
+        },
+        {
+          "name": "midterm-app-5bc4dcd798-bc4lc",
+          "uid": "e1ee7375-b7d1-48ba-a4ff-3db26ee6db65",
+          "phase": "Running",
+          "ready": true,
+          "restarts": 0,
+          "containerId": "containerd://e6f02a7d56bf5020d1f77cc7bd385afeaffbbca6452ae12ae40758cddad517f9"
+        }
+      ],
+      "readyEndpoints": 2
+    },
+    "03-before-delete": {
+      "pods": [
+        {
+          "name": "midterm-app-5bc4dcd798-6vltq",
+          "uid": "4c36c30d-9a47-483e-a279-7608f859e1b2",
+          "phase": "Running",
+          "ready": true,
+          "restarts": 0,
+          "containerId": "containerd://6e34cd7141000857ebf1be61bd43c9049f5f3683a48b567ede5a24237d5ba36d"
+        },
+        {
+          "name": "midterm-app-5bc4dcd798-bc4lc",
+          "uid": "e1ee7375-b7d1-48ba-a4ff-3db26ee6db65",
+          "phase": "Running",
+          "ready": true,
+          "restarts": 0,
+          "containerId": "containerd://e6f02a7d56bf5020d1f77cc7bd385afeaffbbca6452ae12ae40758cddad517f9"
+        }
+      ],
+      "readyEndpoints": 2
+    },
+    "03-after-replacement": {
+      "pods": [
+        {
+          "name": "midterm-app-5bc4dcd798-bc4lc",
+          "uid": "e1ee7375-b7d1-48ba-a4ff-3db26ee6db65",
+          "phase": "Running",
+          "ready": true,
+          "restarts": 0,
+          "containerId": "containerd://e6f02a7d56bf5020d1f77cc7bd385afeaffbbca6452ae12ae40758cddad517f9"
+        },
+        {
+          "name": "midterm-app-5bc4dcd798-fnsgw",
+          "uid": "cf9ddb46-9128-4db4-9b32-9a8a9a091bd8",
+          "phase": "Running",
+          "ready": true,
+          "restarts": 0,
+          "containerId": "containerd://384d9ecec9f589703aca6f4a3aae949fd4402964d9ee7eeda670f7c1f38c68b1"
+        }
+      ],
+      "readyEndpoints": 2
+    },
+    "04-selector-baseline": {
+      "pods": [
+        {
+          "name": "midterm-app-5bc4dcd798-bc4lc",
+          "uid": "e1ee7375-b7d1-48ba-a4ff-3db26ee6db65",
+          "phase": "Running",
+          "ready": true,
+          "restarts": 0,
+          "containerId": "containerd://e6f02a7d56bf5020d1f77cc7bd385afeaffbbca6452ae12ae40758cddad517f9"
+        },
+        {
+          "name": "midterm-app-5bc4dcd798-fnsgw",
+          "uid": "cf9ddb46-9128-4db4-9b32-9a8a9a091bd8",
+          "phase": "Running",
+          "ready": true,
+          "restarts": 0,
+          "containerId": "containerd://384d9ecec9f589703aca6f4a3aae949fd4402964d9ee7eeda670f7c1f38c68b1"
+        }
+      ],
+      "readyEndpoints": 2
+    },
+    "04-selector-failure": {
+      "pods": [
+        {
+          "name": "midterm-app-5bc4dcd798-bc4lc",
+          "uid": "e1ee7375-b7d1-48ba-a4ff-3db26ee6db65",
+          "phase": "Running",
+          "ready": true,
+          "restarts": 0,
+          "containerId": "containerd://e6f02a7d56bf5020d1f77cc7bd385afeaffbbca6452ae12ae40758cddad517f9"
+        },
+        {
+          "name": "midterm-app-5bc4dcd798-fnsgw",
+          "uid": "cf9ddb46-9128-4db4-9b32-9a8a9a091bd8",
+          "phase": "Running",
+          "ready": true,
+          "restarts": 0,
+          "containerId": "containerd://384d9ecec9f589703aca6f4a3aae949fd4402964d9ee7eeda670f7c1f38c68b1"
+        }
+      ],
+      "readyEndpoints": 0
+    },
+    "04-selector-recovery": {
+      "pods": [
+        {
+          "name": "midterm-app-5bc4dcd798-bc4lc",
+          "uid": "e1ee7375-b7d1-48ba-a4ff-3db26ee6db65",
+          "phase": "Running",
+          "ready": true,
+          "restarts": 0,
+          "containerId": "containerd://e6f02a7d56bf5020d1f77cc7bd385afeaffbbca6452ae12ae40758cddad517f9"
+        },
+        {
+          "name": "midterm-app-5bc4dcd798-fnsgw",
+          "uid": "cf9ddb46-9128-4db4-9b32-9a8a9a091bd8",
+          "phase": "Running",
+          "ready": true,
+          "restarts": 0,
+          "containerId": "containerd://384d9ecec9f589703aca6f4a3aae949fd4402964d9ee7eeda670f7c1f38c68b1"
+        }
+      ],
+      "readyEndpoints": 2
+    },
+    "05-readiness-baseline": {
+      "pods": [
+        {
+          "name": "midterm-app-5bc4dcd798-bc4lc",
+          "uid": "e1ee7375-b7d1-48ba-a4ff-3db26ee6db65",
+          "phase": "Running",
+          "ready": true,
+          "restarts": 0,
+          "containerId": "containerd://e6f02a7d56bf5020d1f77cc7bd385afeaffbbca6452ae12ae40758cddad517f9"
+        },
+        {
+          "name": "midterm-app-5bc4dcd798-fnsgw",
+          "uid": "cf9ddb46-9128-4db4-9b32-9a8a9a091bd8",
+          "phase": "Running",
+          "ready": true,
+          "restarts": 0,
+          "containerId": "containerd://384d9ecec9f589703aca6f4a3aae949fd4402964d9ee7eeda670f7c1f38c68b1"
+        }
+      ],
+      "readyEndpoints": 2
+    },
+    "05-readiness-failure": {
+      "pods": [
+        {
+          "name": "midterm-app-5bc4dcd798-bc4lc",
+          "uid": "e1ee7375-b7d1-48ba-a4ff-3db26ee6db65",
+          "phase": "Running",
+          "ready": false,
+          "restarts": 0,
+          "containerId": "containerd://e6f02a7d56bf5020d1f77cc7bd385afeaffbbca6452ae12ae40758cddad517f9"
+        },
+        {
+          "name": "midterm-app-5bc4dcd798-fnsgw",
+          "uid": "cf9ddb46-9128-4db4-9b32-9a8a9a091bd8",
+          "phase": "Running",
+          "ready": true,
+          "restarts": 0,
+          "containerId": "containerd://384d9ecec9f589703aca6f4a3aae949fd4402964d9ee7eeda670f7c1f38c68b1"
+        }
+      ],
+      "readyEndpoints": 1
+    },
+    "05-readiness-recovery": {
+      "pods": [
+        {
+          "name": "midterm-app-5bc4dcd798-bc4lc",
+          "uid": "e1ee7375-b7d1-48ba-a4ff-3db26ee6db65",
+          "phase": "Running",
+          "ready": true,
+          "restarts": 0,
+          "containerId": "containerd://e6f02a7d56bf5020d1f77cc7bd385afeaffbbca6452ae12ae40758cddad517f9"
+        },
+        {
+          "name": "midterm-app-5bc4dcd798-fnsgw",
+          "uid": "cf9ddb46-9128-4db4-9b32-9a8a9a091bd8",
+          "phase": "Running",
+          "ready": true,
+          "restarts": 0,
+          "containerId": "containerd://384d9ecec9f589703aca6f4a3aae949fd4402964d9ee7eeda670f7c1f38c68b1"
+        }
+      ],
+      "readyEndpoints": 2
+    }
+  },
+  "imageConfigDigest": "sha256:27ff95fd2cf430cf9c6c9e608939c875c16dd68ae2d578dcb88fb0b440b44b76",
+  "assertions": "PASS: all 9 phases, Pod replacement, unchanged readiness process/container IDs, 2->1->2 ready endpoints, matching application image config"
+}

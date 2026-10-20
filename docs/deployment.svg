@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="720" viewBox="0 0 1400 720">
+<defs><marker id="a" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#345a82"/></marker></defs>
+<rect width="1400" height="720" fill="#f7f9fc"/>
+<g font-family="Arial,sans-serif" fill="#18334f"><text x="35" y="42" font-size="26" font-weight="bold">One Oracle VM, two application deployment environments</text>
+<text x="35" y="71" font-size="16">Observed setup: remote KVM guest. The Mac is an SSH client, not the VM's physical host.</text>
+<rect x="35" y="130" width="220" height="165" rx="12" fill="#e2ecf7" stroke="#345a82"/>
+<text x="60" y="166" font-size="22" font-weight="bold">Mac client</text><text x="60" y="202" font-size="17">curl localhost:18080</text><text x="60" y="233" font-size="16">SSH local forwarding</text><text x="60" y="262" font-size="16">TCP 18080 → SSH 22</text>
+<rect x="400" y="105" width="965" height="555" rx="14" fill="#fff" stroke="#345a82" stroke-width="2"/>
+<text x="425" y="139" font-size="22" font-weight="bold">Oracle Ubuntu 24.04.3 VM · ARM64 · 4 vCPU · ~24 GB RAM</text>
+<text x="425" y="169" font-size="16">VNIC private IP 10.0.0.110 · Oracle manages external routing / physical host</text>
+<path d="M255,215 H420" fill="none" stroke="#345a82" stroke-width="2.5" marker-end="url(#a)"/><text x="274" y="190" font-size="16">Encrypted SSH</text><text x="273" y="247" font-size="14">remote loopback</text>
+<rect x="425" y="195" width="910" height="145" rx="10" fill="#e7f5ef" stroke="#3f8061"/>
+<text x="445" y="225" font-size="20" font-weight="bold">Environment 1: Docker Compose</text>
+<text x="445" y="260" font-size="17">VM 127.0.0.1:18080</text><path d="M653,255 H775" stroke="#345a82" stroke-width="2" marker-end="url(#a)"/>
+<text x="790" y="258" font-size="17">Docker container :8080 → Node application process</text>
+<text x="445" y="302" font-size="16">Bridge network 172.29.54.0/24 · image cs554-midterm:1.0.0 · non-root user</text>
+<rect x="425" y="365" width="910" height="265" rx="10" fill="#edf0fc" stroke="#6576ab"/>
+<text x="445" y="397" font-size="20" font-weight="bold">Environment 2: k3d server container → K3s / containerd → application Pods</text>
+<text x="445" y="429" font-size="16">One node · API 127.0.0.1:16443 · same imported application image</text>
+<rect x="445" y="457" width="190" height="70" rx="7" fill="#fff" stroke="#6576ab"/><text x="460" y="486" font-size="17">In-cluster client</text><text x="460" y="512" font-size="14">separate client Pod</text>
+<rect x="705" y="457" width="230" height="70" rx="7" fill="#fff" stroke="#6576ab"/><text x="725" y="486" font-size="17">ClusterIP Service :80</text><text x="725" y="512" font-size="14">selector app=midterm-app</text>
+<path d="M635,492 H705" stroke="#345a82" stroke-width="2" marker-end="url(#a)"/>
+<rect x="1020" y="448" width="280" height="60" rx="7" fill="#fff" stroke="#6576ab"/><text x="1035" y="474" font-size="16">Pod A :8080 → Node process</text><text x="1035" y="495" font-size="13">own hostname and request counter</text>
+<rect x="1020" y="528" width="280" height="60" rx="7" fill="#fff" stroke="#6576ab"/><text x="1035" y="554" font-size="16">Pod B :8080 → Node process</text><text x="1035" y="575" font-size="13">own hostname and request counter</text>
+<path d="M935,492 H976 V478 H1020 M976,492 V558 H1020" fill="none" stroke="#345a82" stroke-width="2" marker-end="url(#a)"/>
+<text x="445" y="598" font-size="15">Pod CIDR 10.54.0.0/16 · Service CIDR 10.55.0.0/16 · readiness controls traffic eligibility</text>
+<text x="35" y="695" font-size="15">Physical Oracle host → KVM Ubuntu VM → containers → application processes. VM and containers share physical resources at different abstraction layers.</text>
+</g></svg>

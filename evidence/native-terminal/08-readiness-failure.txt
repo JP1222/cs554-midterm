@@ -1,0 +1,21 @@
+ubuntu@oracle:~/cs554-midterm$ kubectl -n cs554-midterm exec "$TARGET_POD" -- touch /tmp/midterm-not-ready
+ubuntu@oracle:~/cs554-midterm$ kubectl -n cs554-midterm wait "pod/$TARGET_POD" --for=condition=Ready=false --timeout=60s
+pod/midterm-app-5bc4dcd798-fnsgw condition met
+ubuntu@oracle:~/cs554-midterm$ wait_ready_endpoints 1
+Verified ready Service endpoints: 1
+ubuntu@oracle:~/cs554-midterm$ kubectl -n cs554-midterm get pods -l app=midterm-app -o 'custom-columns=NAME:.metadata.name,UID:.metadata.uid,READY:.status.containerStatuses[0].ready,RESTARTS:.status.containerStatuses[0].restartCount'
+NAME                           UID                                    READY   RESTARTS
+midterm-app-5bc4dcd798-fnsgw   cf9ddb46-9128-4db4-9b32-9a8a9a091bd8   false   0
+midterm-app-5bc4dcd798-nrfnw   a1f583a5-a7d7-4750-8232-d839d93d92f0   true    0
+ubuntu@oracle:~/cs554-midterm$ kubectl -n cs554-midterm get endpointslices -l kubernetes.io/service-name=midterm-app -o 'jsonpath={range .items[*].endpoints[*]}{.targetRef.name}{"  ready="}{.conditions.ready}{"\n"}{end}'
+midterm-app-5bc4dcd798-nrfnw  ready=true
+midterm-app-5bc4dcd798-fnsgw  ready=false
+ubuntu@oracle:~/cs554-midterm$ kubectl -n cs554-midterm exec "$TARGET_POD" -- cat /proc/1/comm
+node
+ubuntu@oracle:~/cs554-midterm$ kubectl -n cs554-midterm exec "$TARGET_POD" -- node -e 'fetch("http://127.0.0.1:8080/health").then(async r=>console.log(r.status,await r.text()))'
+503 {"status":"not-ready"}
+ubuntu@oracle:~/cs554-midterm$ for i in 1 2 3; do client_get http://midterm-app/; done
+HTTP 200 {"service":"cs554-midterm","message":"Hello from the midterm service","hostname":"midterm-app-5bc4dcd798-nrfnw","requestCount":3}
+HTTP 200 {"service":"cs554-midterm","message":"Hello from the midterm service","hostname":"midterm-app-5bc4dcd798-nrfnw","requestCount":4}
+HTTP 200 {"service":"cs554-midterm","message":"Hello from the midterm service","hostname":"midterm-app-5bc4dcd798-nrfnw","requestCount":5}
+ubuntu@oracle:~/cs554-midterm$ 

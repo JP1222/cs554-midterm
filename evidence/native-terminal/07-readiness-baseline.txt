@@ -1,0 +1,11 @@
+ubuntu@oracle:~/cs554-midterm$ TARGET_POD=$(kubectl -n cs554-midterm get pods -l app=midterm-app -o jsonpath='{.items[0].metadata.name}')
+ubuntu@oracle:~/cs554-midterm$ kubectl -n cs554-midterm get pods -l app=midterm-app -o 'custom-columns=NAME:.metadata.name,UID:.metadata.uid,READY:.status.containerStatuses[0].ready,RESTARTS:.status.containerStatuses[0].restartCount'
+NAME                           UID                                    READY   RESTARTS
+midterm-app-5bc4dcd798-fnsgw   cf9ddb46-9128-4db4-9b32-9a8a9a091bd8   true    0
+midterm-app-5bc4dcd798-nrfnw   a1f583a5-a7d7-4750-8232-d839d93d92f0   true    0
+ubuntu@oracle:~/cs554-midterm$ kubectl -n cs554-midterm get endpointslices -l kubernetes.io/service-name=midterm-app -o 'jsonpath={range .items[*].endpoints[*]}{.targetRef.name}{"  ready="}{.conditions.ready}{"\n"}{end}'
+midterm-app-5bc4dcd798-nrfnw  ready=true
+midterm-app-5bc4dcd798-fnsgw  ready=true
+ubuntu@oracle:~/cs554-midterm$ client_get http://midterm-app/health
+HTTP 200 {"status":"ok"}
+ubuntu@oracle:~/cs554-midterm$ 

@@ -1,0 +1,6 @@
+.tools/k3d: OK
+k3d version v5.9.0
+k3s version v1.35.5-k3s1 (default)
+.tools/kubectl: OK
+Client Version: v1.35.5
+Kustomize Version: v5.7.1

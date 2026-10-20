@@ -1,0 +1,83 @@
+{
+    "apiVersion": "v1",
+    "items": [
+        {
+            "addressType": "IPv4",
+            "apiVersion": "discovery.k8s.io/v1",
+            "endpoints": [
+                {
+                    "addresses": [
+                        "10.54.0.8"
+                    ],
+                    "conditions": {
+                        "ready": true,
+                        "serving": true,
+                        "terminating": false
+                    },
+                    "nodeName": "k3d-cs554-midterm-server-0",
+                    "targetRef": {
+                        "kind": "Pod",
+                        "name": "midterm-app-5bc4dcd798-fnsgw",
+                        "namespace": "cs554-midterm",
+                        "uid": "cf9ddb46-9128-4db4-9b32-9a8a9a091bd8"
+                    }
+                },
+                {
+                    "addresses": [
+                        "10.54.0.3"
+                    ],
+                    "conditions": {
+                        "ready": true,
+                        "serving": true,
+                        "terminating": false
+                    },
+                    "nodeName": "k3d-cs554-midterm-server-0",
+                    "targetRef": {
+                        "kind": "Pod",
+                        "name": "midterm-app-5bc4dcd798-bc4lc",
+                        "namespace": "cs554-midterm",
+                        "uid": "e1ee7375-b7d1-48ba-a4ff-3db26ee6db65"
+                    }
+                }
+            ],
+            "kind": "EndpointSlice",
+            "metadata": {
+                "annotations": {
+                    "endpoints.kubernetes.io/last-change-trigger-time": "2026-10-15T21:46:35Z"
+                },
+                "creationTimestamp": "2026-10-15T21:46:20Z",
+                "generateName": "midterm-app-",
+                "generation": 11,
+                "labels": {
+                    "endpointslice.kubernetes.io/managed-by": "endpointslice-controller.k8s.io",
+                    "kubernetes.io/service-name": "midterm-app"
+                },
+                "name": "midterm-app-qv8q8",
+                "namespace": "cs554-midterm",
+                "ownerReferences": [
+                    {
+                        "apiVersion": "v1",
+                        "blockOwnerDeletion": true,
+                        "controller": true,
+                        "kind": "Service",
+                        "name": "midterm-app",
+                        "uid": "eb7d6280-3e15-4e44-8370-a79efed9e80f"
+                    }
+                ],
+                "resourceVersion": "651",
+                "uid": "a601494b-64fd-4ee8-87c6-9aa406a2385a"
+            },
+            "ports": [
+                {
+                    "name": "http",
+                    "port": 8080,
+                    "protocol": "TCP"
+                }
+            ]
+        }
+    ],
+    "kind": "List",
+    "metadata": {
+        "resourceVersion": ""
+    }
+}

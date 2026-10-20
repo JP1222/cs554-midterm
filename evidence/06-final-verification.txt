@@ -1,0 +1,64 @@
+UTC: 2026-10-15T21:50:47Z
+Working directory: /home/ubuntu/cs554-midterm
+
+$ k get deployment\,pods\,service -o wide
+NAME                          READY   UP-TO-DATE   AVAILABLE   AGE     CONTAINERS   IMAGES                SELECTOR
+deployment.apps/midterm-app   2/2     2            2           4m27s   app          cs554-midterm:1.0.0   app=midterm-app
+
+NAME                               READY   STATUS    RESTARTS   AGE     IP          NODE                         NOMINATED NODE   READINESS GATES
+pod/evidence-client                1/1     Running   0          4m11s   10.54.0.7   k3d-cs554-midterm-server-0   <none>           <none>
+pod/midterm-app-5bc4dcd798-bc4lc   1/1     Running   0          4m26s   10.54.0.3   k3d-cs554-midterm-server-0   <none>           <none>
+pod/midterm-app-5bc4dcd798-fnsgw   1/1     Running   0          67s     10.54.0.8   k3d-cs554-midterm-server-0   <none>           <none>
+
+NAME                  TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)   AGE     SELECTOR
+service/midterm-app   ClusterIP   10.55.179.116   <none>        80/TCP    4m27s   app=midterm-app
+Verified ready Service endpoints: 2
+
+$ curl -fsS -i http://127.0.0.1:18080/health
+HTTP/1.1 200 OK
+Content-Type: application/json
+Date: Thu, 15 Oct 2026 21:50:48 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+Transfer-Encoding: chunked
+
+{"status":"ok"}
+$ docker compose ps
+NAME                  IMAGE                 COMMAND                  SERVICE   CREATED         STATUS                   PORTS
+cs554-midterm-app-1   cs554-midterm:1.0.0   "docker-entrypoint.s…"   app       5 minutes ago   Up 5 minutes (healthy)   127.0.0.1:18080->8080/tcp
+
+$ docker stats --no-stream --format table\ \{\{.Name\}\}\\t\{\{.CPUPerc\}\}\\t\{\{.MemUsage\}\} cs554-midterm-app-1 k3d-cs554-midterm-server-0
+NAME                         CPU %     MEM USAGE / LIMIT
+cs554-midterm-app-1          0.00%     11.35MiB / 128MiB
+k3d-cs554-midterm-server-0   3.67%     531.6MiB / 3GiB
+
+$ free -h
+               total        used        free      shared  buff/cache   available
+Mem:            23Gi       3.4Gi       423Mi       118Mi        19Gi        19Gi
+Swap:          8.0Gi       251Mi       7.8Gi
+
+$ df -h /
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/sda1       193G  128G   65G  67% /
+
+Pre-existing container preservation:
+/clouddrive2 Running=true Status=running
+/copyparty Running=true Status=running
+/hermes Running=true Status=running
+/jellyfin Running=true Status=running
+/moviepilot-v2 Running=true Status=running
+/moviepilot-v2-postgresql-1 Running=true Status=running
+/moviepilot-v2-redis-1 Running=true Status=running
+/peng-finance-mcp-1 Running=true Status=running
+/plex Running=true Status=running
+/qb Running=true Status=running
+/qbittorrent Running=true Status=running
+/traefik Running=true Status=running
+/watchtower Running=true Status=running
+
+Image content verification (Docker archive manifest only; archive is not saved):
+{"Config":"blobs/sha256/27ff95fd2cf430cf9c6c9e608939c875c16dd68ae2d578dcb88fb0b440b44b76","RepoTags":["cs554-midterm:1.0.0"]}
+
+Readiness marker cleanup:
+midterm-app-5bc4dcd798-bc4lc blocked=false
+midterm-app-5bc4dcd798-fnsgw blocked=false

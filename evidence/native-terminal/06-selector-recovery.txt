@@ -1,0 +1,14 @@
+ubuntu@oracle:~/cs554-midterm$ kubectl -n cs554-midterm patch service midterm-app --type=merge -p '{"spec":{"selector":{"app":"midterm-app"}}}'
+service/midterm-app patched
+ubuntu@oracle:~/cs554-midterm$ wait_ready_endpoints 2
+Verified ready Service endpoints: 2
+ubuntu@oracle:~/cs554-midterm$ kubectl -n cs554-midterm get pods -l app=midterm-app
+NAME                           READY   STATUS    RESTARTS   AGE
+midterm-app-5bc4dcd798-fnsgw   1/1     Running   0          173m
+midterm-app-5bc4dcd798-nrfnw   1/1     Running   0          20s
+ubuntu@oracle:~/cs554-midterm$ kubectl -n cs554-midterm get endpointslices -l kubernetes.io/service-name=midterm-app
+NAME                ADDRESSTYPE   PORTS   ENDPOINTS             AGE
+midterm-app-qv8q8   IPv4          8080    10.54.0.9,10.54.0.8   176m
+ubuntu@oracle:~/cs554-midterm$ client_get http://midterm-app/
+HTTP 200 {"service":"cs554-midterm","message":"Hello from the midterm service","hostname":"midterm-app-5bc4dcd798-nrfnw","requestCount":2}
+ubuntu@oracle:~/cs554-midterm$ 

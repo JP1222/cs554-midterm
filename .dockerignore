@@ -1,0 +1,13 @@
+.git
+.tools
+.runtime
+node_modules
+evidence
+docs
+reference
+test
+scripts
+k8s
+*.md
+*.mp4
+*.zip
